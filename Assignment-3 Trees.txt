@@ -1,0 +1,477 @@
+Assignment-3: Trees
+
+1)-Implement Binary tree
+
+class BinaryTreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinaryTree {
+  constructor() {
+    this.root = null;
+  }
+
+  insert(value) {
+    const newNode = new BinaryTreeNode(value);
+
+    if (this.root === null) {
+      this.root = newNode;
+    } else {
+      let currentNode = this.root;
+
+      while (true) {
+        if (value < currentNode.value) {
+          if (currentNode.left === null) {
+            currentNode.left = newNode;
+            break;
+          } else {
+            currentNode = currentNode.left;
+          }
+        } else {
+          if (currentNode.right === null) {
+            currentNode.right = newNode;
+            break;
+          } else {
+            currentNode = currentNode.right;
+          }
+        }
+      }
+    }
+  }
+
+  inorderTraversal() {
+    if (this.root === null) {
+      return [];
+    } else {
+      const values = [];
+
+      const inorderTraversalRecursive = (node) => {
+        if (node !== null) {
+          inorderTraversalRecursive(node.left);
+          values.push(node.value);
+          inorderTraversalRecursive(node.right);
+        }
+      };
+
+      inorderTraversalRecursive(this.root);
+
+      return values;
+    }
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const values = tree.inorderTraversal();
+
+  console.log(values);
+}
+
+if (require.main === module) {
+  main();
+}
+
+
+2)-Find height of a given tree
+
+function heightOfBinaryTree(root) {
+  if (root === null) {
+    return 0;
+  } else {
+    const leftHeight = heightOfBinaryTree(root.left);
+    const rightHeight = heightOfBinaryTree(root.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const height = heightOfBinaryTree(tree.root);
+
+  console.log(height);
+}
+
+if (require.main === module) {
+  main();
+}
+
+3)-Perform Pre-order, Post-order, In-order traversal
+
+function preOrderTraversal(root) {
+  if (root === null) {
+    return;
+  } else {
+    console.log(root.value);
+    preOrderTraversal(root.left);
+    preOrderTraversal(root.right);
+  }
+}
+
+function postOrderTraversal(root) {
+  if (root === null) {
+    return;
+  } else {
+    postOrderTraversal(root.left);
+    postOrderTraversal(root.right);
+    console.log(root.value);
+  }
+}
+
+function inOrderTraversal(root) {
+  if (root === null) {
+    return;
+  } else {
+    inOrderTraversal(root.left);
+    console.log(root.value);
+    inOrderTraversal(root.right);
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  console.log("Pre-order traversal:");
+  preOrderTraversal(tree.root);
+
+  console.log("\nPost-order traversal:");
+  postOrderTraversal(tree.root);
+
+  console.log("\nIn-order traversal:");
+  inOrderTraversal(tree.root);
+}
+
+if (require.main === module) {
+  main();
+}
+
+4)-Function to print all the leaves in a given binary tree
+
+function printLeaves(root) {
+  if (root === null) {
+    return;
+  } else if (root.left === null && root.right === null) {
+    console.log(root.value);
+  } else {
+    printLeaves(root.left);
+    printLeaves(root.right);
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  console.log("Leaves of the binary tree:");
+  printLeaves(tree.root);
+}
+
+if (require.main === module) {
+  main();
+}
+
+5)-Implement BFS (Breath First Search) and DFS (Depth First Search)
+
+function bfs(root) {
+  const queue = [];
+  queue.push(root);
+
+  while (queue.length > 0) {
+    const node = queue.shift();
+    console.log(node.value);
+
+    if (node.left !== null) {
+      queue.push(node.left);
+    }
+
+    if (node.right !== null) {
+      queue.push(node.right);
+    }
+  }
+}
+
+function dfs(root) {
+  const stack = [];
+  stack.push(root);
+
+  while (stack.length > 0) {
+    const node = stack.pop();
+    console.log(node.value);
+
+    if (node.left !== null) {
+      stack.push(node.left);
+    }
+
+    if (node.right !== null) {
+      stack.push(node.right);
+    }
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  console.log("BFS:");
+  bfs(tree.root);
+
+  console.log("\nDFS:");
+  dfs(tree.root);
+}
+
+if (require.main === module) {
+  main();
+}
+
+6)-Find sum of all left leaves in a given Binary Tree
+
+function sumOfLeftLeaves(root) {
+  if (root === null) {
+    return 0;
+  } else if (root.left === null && root.right === null) {
+    return root.value;
+  } else {
+    return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const sum = sumOfLeftLeaves(tree.root);
+
+  console.log("Sum of all left leaves:", sum);
+}
+
+if (require.main === module) {
+  main();
+}
+
+7)-Find sum of all nodes of the given perfect binary tree
+
+function sumOfAllNodes(root) {
+  if (root === null) {
+    return 0;
+  } else {
+    return root.value + sumOfAllNodes(root.left) + sumOfAllNodes(root.right);
+  }
+}
+
+function isPerfectBinaryTree(root, height) {
+  if (root === null) {
+    return true;
+  } else if (height === 0) {
+    return true;
+  } else {
+    return isPerfectBinaryTree(root.left, height - 1) &&
+           isPerfectBinaryTree(root.right, height - 1);
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const height = heightOfBinaryTree(tree.root);
+
+  if (isPerfectBinaryTree(tree.root, height)) {
+    const sum = sumOfAllNodes(tree.root);
+    console.log("Sum of all nodes:", sum);
+  } else {
+    console.log("The tree is not a perfect binary tree");
+  }
+}
+
+if (require.main === module) {
+  main();
+}
+
+8)-Count subtress that sum up to a given value x in a binary tree
+
+function countSubtreesWithSumX(root, x) {
+  if (root === null) {
+    return 0;
+  } else {
+    const countLeft = countSubtreesWithSumX(root.left, x - root.value);
+    const countRight = countSubtreesWithSumX(root.right, x - root.value);
+    const countSelf = (x === root.value) ? 1 : 0;
+
+    return countLeft + countRight + countSelf;
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const x = 18;
+
+  const count = countSubtreesWithSumX(tree.root, x);
+
+  console.log("The number of subtrees with sum", x, "is", count);
+}
+
+if (require.main === module) {
+  main();
+}
+
+9)-Find maximum level sum in Binary Tree
+
+function maxLevelSum(root) {
+  if (root === null) {
+    return 0;
+  } else {
+    const queue = [];
+    queue.push(root);
+    const maxSum = 0;
+
+    while (queue.length > 0) {
+      const levelSize = queue.length;
+      let currentSum = 0;
+
+      for (let i = 0; i < levelSize; i++) {
+        const node = queue.shift();
+        currentSum += node.value;
+
+        if (node.left !== null) {
+          queue.push(node.left);
+        }
+
+        if (node.right !== null) {
+          queue.push(node.right);
+        }
+      }
+
+      maxSum = Math.max(maxSum, currentSum);
+    }
+
+    return maxSum;
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  const maxSum = maxLevelSum(tree.root);
+
+  console.log("Maximum level sum:", maxSum);
+}
+
+if (require.main === module) {
+  main();
+}
+
+10)-Print the nodes at odd levels of a tree
+function printNodesAtOddLevels(root) {
+  if (root === null) {
+    return;
+  } else {
+    const queue = [];
+    queue.push(root);
+    const level = 1;
+
+    while (queue.length > 0) {
+      const nodeCount = queue.length;
+
+      for (let i = 0; i < nodeCount; i++) {
+        const node = queue.shift();
+
+        if (level % 2 !== 0) {
+          console.log(node.value);
+        }
+
+        if (node.left !== null) {
+          queue.push(node.left);
+        }
+
+        if (node.right !== null) {
+          queue.push(node.right);
+        }
+      }
+
+      level++;
+    }
+  }
+}
+
+function main() {
+  const tree = new BinaryTree();
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+
+  printNodesAtOddLevels(tree.root);
+}
+
+if (require.main === module) {
+  main();
+}
